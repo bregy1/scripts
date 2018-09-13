@@ -1,0 +1,15 @@
+{
+  "name": "home-scripts",
+  "version": "1.0.0",
+  "description": "List of small programs made usually for testing or having fun.",
+  "main": "index.js",
+  "dependencies": {
+    "node-cmd": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -4,6 +4,7 @@
   "description": "List of small programs made usually for testing or having fun.",
   "main": "index.js",
   "dependencies": {
+    "protractor": "^5.4.1"
   },
   "devDependencies": {},
   "scripts": {

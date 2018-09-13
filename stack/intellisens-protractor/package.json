@@ -1,0 +1,25 @@
+{
+  "name": "intellisens-protractor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^8.0.47",
+    "astrolabe": "0.3.6",
+    "exceljs": "^0.2.3",
+    "jasmine-allure-reporter": "^0.2.3",
+    "jasmine-reporters": "2.0.0",
+    "protractor": "~2.2.0",
+    "selenium-webdriver": "^2.47.1",
+    "winston": "1.0.1"
+  },
+  "dependencies": {
+    "path": "^0.12.7",
+    "promise": "^7.0.4"
+  }
+}

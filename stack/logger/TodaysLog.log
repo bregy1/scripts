@@ -1,0 +1,14 @@
+{"level":"warn","message":"Hello distributed log files!"}
+{"level":"info","message":"Hello distributed log files!"}
+{"level":"error","message":"Hello distributed log files!"}
+{"level":"warn","message":"Hello distributed log files!"}
+{"level":"info","message":"Hello distributed log files!"}
+{"level":"error","message":"Hello distributed log files!"}
+{"level":"warn","message":"Hello distributed log files!"}
+{"level":"info","message":"Hello distributed log files!"}
+{"level":"error","message":"Hello distributed log files!"}
+{"level":"warn","message":"Hello distributed log files!"}
+{"level":"info","message":"Hello distributed log files!"}
+{"message":"sdf","level":"info"}
+{"level":"error","message":"Hello distributed log files!"}
+{"level":"warn","message":"Hello distributed log files!"}

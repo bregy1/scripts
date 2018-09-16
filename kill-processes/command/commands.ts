@@ -1,5 +1,4 @@
 import { ICmd } from '../node-cmd/node-cmd.interface';
-import { NodeCmd } from '../node-cmd/cmd';
 
 export abstract class ICommands {
     public abstract listProcesses(): Promise<string>;

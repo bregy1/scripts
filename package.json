@@ -4,7 +4,9 @@
   "description": "List of small programs made usually for testing or having fun.",
   "main": "index.js",
   "dependencies": {
-    "protractor": "^5.4.1"
+    "@types/winston": "^2.4.4",
+    "protractor": "^5.4.1",
+    "winston": "^3.1.0"
   },
   "devDependencies": {},
   "scripts": {

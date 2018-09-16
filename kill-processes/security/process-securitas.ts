@@ -14,6 +14,7 @@ export class ProcessSecuritas {
 
     }
 
+    // fullMatch applies only to string.
     private isBadGuy(target: string, match: string | RegExp, fullMatch: boolean = false): boolean {
         if(typeof match === 'string') {
             if(fullMatch) {

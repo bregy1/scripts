@@ -1,9 +1,13 @@
 
+var winston = require('winston');
 
-var Winston = function() {
-    this.log =function(data) {
-        console.log(data);
-    }
-}
-
-module.exports = new Winston();
+module.exports = winston.createLogger({
+    level: 'info',
+ //   format: winston.format.simple(),
+    transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({
+            filename: 'TodaysLog.log'
+        })
+    ]
+});

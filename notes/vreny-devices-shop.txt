@@ -1,0 +1,18 @@
+
+
+
+
+        Rechnungen im Geschaeft drucken. Eingabe in Julia
+        Und einen Drucker dazu.
+
+        - bergy@haus7233 #Julia
+        - Vreny@3
+            3925$Vreny 
+            
+            #wordpress
+
+
+## Julia Installationsinfo
+
+    - Kunden-ID: "7233"
+    - Seriennummer: "7639-1754-6482"

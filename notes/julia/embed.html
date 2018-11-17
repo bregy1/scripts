@@ -1,0 +1,69 @@
+<div id="ebEnquiry"></div>
+<script type="text/javascript" src="//www.easy-booking.at/ebPlugins/enquiry/jquery.easybooking.enquiry.v2.js"></script>
+<script type="text/javascript">
+(function getLangId() {
+    function getLang(lang) {
+        if (!lang || typeof lang !== 'string') return 1;
+        if (lang.length > 2) lang = lang.substring(0, 2);
+
+        switch (lang.toUpperCase()) {
+            case 'EN':
+                return 1;
+            case 'DE':
+                return 2;
+            case 'NL':
+                return 3;
+            case 'IT':
+                return 4;
+            case 'FR':
+                return 5;
+            case 'HU':
+                return 6;
+            case 'RU':
+                return 10;
+            default:
+                return 1
+        }
+    }
+
+    function ebEnquiryLoadedCheck(localeId) {
+        if (typeof jQuery != "undefined") {
+            if (jQuery.fn.ebEnquiry) {
+                jQuery("#ebEnquiry").ebEnquiry({
+                    customerId: 7233,
+                    serialNo: "7639-1754-6482",
+                    localeId: localeId,
+                    fontcolor: "black",
+                    buttoncolor: "",
+                    buttonfontcolor: "",
+                    source: "",
+                    comment: "",
+                    conversionEnquiry: ""
+                });
+            } else { setTimeout(ebEnquiryLoadedCheck, 200); }
+        } else { setTimeout(ebEnquiryLoadedCheck, 200); }
+    }
+
+    function getAppartmentId() {
+        var url = window.location.href;
+        if(url.indexOf('apartments-efeu') > -1) {
+            return 11;
+        }
+        if(url.indexOf('apartments-efeu') > -1) {
+            return 11;
+        }
+        console.error('aoparmtent not found in', url);
+    }
+
+    function createLink() {
+        
+    }
+
+
+    var lang = window.navigator.language || window.navigator.userLanguage;
+    var langId = getLangId(lang)
+    var appartment = getAppartmentId();
+    ebEnquiryLoadedCheck(langId);
+})()
+
+</script>

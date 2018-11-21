@@ -1,8 +1,6 @@
-<div id="ebEnquiry"></div>
-<script type="text/javascript" src="//www.easy-booking.at/ebPlugins/enquiry/jquery.easybooking.enquiry.v2.js"></script>
 <script type="text/javascript">
-(function getLangId() {
-    function getLang(lang) {
+
+    function getLangId(lang) {
         if (!lang || typeof lang !== 'string') return 1;
         if (lang.length > 2) lang = lang.substring(0, 2);
 
@@ -26,44 +24,48 @@
         }
     }
 
-    function ebEnquiryLoadedCheck(localeId) {
-        if (typeof jQuery != "undefined") {
-            if (jQuery.fn.ebEnquiry) {
-                jQuery("#ebEnquiry").ebEnquiry({
-                    customerId: 7233,
-                    serialNo: "7639-1754-6482",
-                    localeId: localeId,
-                    fontcolor: "black",
-                    buttoncolor: "",
-                    buttonfontcolor: "",
-                    source: "",
-                    comment: "",
-                    conversionEnquiry: ""
-                });
-            } else { setTimeout(ebEnquiryLoadedCheck, 200); }
-        } else { setTimeout(ebEnquiryLoadedCheck, 200); }
-    }
-
     function getAppartmentId() {
         var url = window.location.href;
-        if(url.indexOf('apartments-efeu') > -1) {
+        if (url.indexOf('apartment-efeu') > -1) {
             return 11;
         }
-        if(url.indexOf('apartments-efeu') > -1) {
-            return 11;
+        if (url.indexOf('apartment-eggeri') > -1) {
+            return 12;
         }
-        console.error('aoparmtent not found in', url);
+        return 12;
+
+        console.error('APARTMENT NOT FOUND IN URL:', url);
     }
 
-    function createLink() {
-        
+    function createJuliaLink(_userId, _langId, _appartmentId) {
+        // https://www.easy-booking.at/clientWeb001/#7233/2/category/11
+        return `https://www.easy-booking.at/clientWeb001/#${_userId}/${_langId}/category/${_appartmentId}`;
     }
 
 
-    var lang = window.navigator.language || window.navigator.userLanguage;
-    var langId = getLangId(lang)
-    var appartment = getAppartmentId();
-    ebEnquiryLoadedCheck(langId);
-})()
+    function embedJulia() {
+
+        var lang = window.navigator.language || window.navigator.userLanguage;
+        var langId = getLangId(lang);
+        var userId = '7233';
+        var langId = '2';
+        var appartmentId = getAppartmentId();
+        var link = createJuliaLink(userId, langId, appartmentId)
+
+        var targetEl = document.getElementById('brsi-embed-julia');
+        targetEl.setAttribute('src', link);
+
+    }
+
+    var interval = setInterval(() => {
+        try {
+            embedJulia();
+            clearInterval(interval);
+        } catch (err) {
+            console.error(err);
+        }
+    }, 300);
 
 </script>
+
+<iframe width="80%" height="70%" id="brsi-embed-julia"></iframe>

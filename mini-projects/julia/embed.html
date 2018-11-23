@@ -20,7 +20,7 @@
             case 'RU':
                 return 10;
             default:
-                return 1
+                return 1;
         }
     }
 
@@ -32,13 +32,11 @@
         if (url.indexOf('apartment-eggeri') > -1) {
             return 12;
         }
-        return 12;
 
         console.error('APARTMENT NOT FOUND IN URL:', url);
     }
 
     function createJuliaLink(_userId, _langId, _appartmentId) {
-        // https://www.easy-booking.at/clientWeb001/#7233/2/category/11
         return `https://www.easy-booking.at/clientWeb001/#${_userId}/${_langId}/category/${_appartmentId}`;
     }
 
@@ -50,10 +48,10 @@
         var userId = '7233';
         var langId = '2';
         var appartmentId = getAppartmentId();
-        var link = createJuliaLink(userId, langId, appartmentId)
+        var link = createJuliaLink(userId, langId, appartmentId);
 
-        var targetEl = document.getElementById('brsi-embed-julia');
-        targetEl.setAttribute('src', link);
+        var iframe = document.getElementById('brsi-embed-julia-eggeri');
+        iframe.setAttribute('src', link);
 
     }
 
@@ -68,4 +66,5 @@
 
 </script>
 
-<iframe width="80%" height="70%" id="brsi-embed-julia"></iframe>
+<iframe width="100%" height="600px" id="brsi-embed-julia-eggeri"></iframe>
+<a id="brsi-link-efeu"><p><h4>I wanna book!</h></p></a>

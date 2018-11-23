@@ -21,7 +21,7 @@ function getLang(short) {
         case 'RU':
             return 10;
         default: 
-            return 1
+            return 1;
     }
 }
 

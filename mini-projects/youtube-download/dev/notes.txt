@@ -29,8 +29,8 @@ Technical:
 
 
 Investigation:
-    - maybe urlParser? 
-    - Which request lib to take for download. 
+    - maybe urlParser?  #URL parsing done..
+    - Which request lib to take for download.  #
         1) Video Url in general
         2) Youtube video url
         *3) what about other common videosites? Soundcloud, 

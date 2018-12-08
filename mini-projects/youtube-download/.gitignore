@@ -1,0 +1,16 @@
+node_modules
+**/node_modules
+dist
+*.DS_Store
+db
+db.json
+*.mp4
+*.wav
+*.mp3
+lib/bundle/settings.bundle.js
+lib/public/login.bundle.js
+data/media
+data
+src/**/*.js.map
+src/**/*.js
+name.txt

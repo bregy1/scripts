@@ -1,8 +1,33 @@
-import { Ytdl } from './youtube-download';
+import { Ytdl, IYtdlInfo } from './youtube-download';
+import { readFile, waitAll, getFileName } from './utils';
+import { Parser } from './parser';
+import { join } from 'path';
 
-var url = 'https://www.youtube.com/watch?v=Dc5JaMw3b-8';
-let yt = new Ytdl(url);
+async function doFullQueue(inputFile: string, destFolder: string) {
 
-yt.getInfo().then(info => {
-    console.log(info)
-})
+    // first we parse urls out of source data..
+    let rawInputData = await readFile(inputFile);
+    let urls = new Parser().urls(rawInputData.toString());
+
+    // then we wanna collect infos for these sources.
+    let downloads = urls.map(url => new Ytdl(url));
+    let infos = await waitAll(downloads.map(download => download.getInfo()))
+
+    // then we download all collected infos
+    let downLodResults = await waitAll(infos.map(async (info, index) => {
+        if(!info) return Promise.resolve('INVALID INFO>>');
+        let filename = getFileName(info);
+        console.log('fineLname:', filename);
+        return downloads[index].downloadVideo(join(destFolder, filename));
+    }));
+
+    console.log("done!");
+    console.log(downLodResults);
+    //  in the end we do cleanup operations or do file move etc..
+
+}
+
+let source = '/Users/silvanbregy/Documents/Github/scripts/mini-projects/youtube-download/src/urls.txt';
+let destFolder = '/Users/silvanbregy/Documents/Github/scripts/mini-projects/youtube-download/src/downloads';
+
+doFullQueue(source, destFolder).then(res => console.log("program done.", res)).catch(console.error);

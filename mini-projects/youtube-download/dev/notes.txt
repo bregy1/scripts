@@ -1,0 +1,38 @@
+
+- In general progeram has to do following steps:
+
+    - read in plain source data, plain means in utf-8 text
+    - parse urls out of it
+    - Do request for getting File information. Build Download object out of that info
+    - Download object holds destination and source and name and staff.
+    - It will simply be stored as json. Can use db from project.
+    - Now do download for each Downloadobj
+    - Store new file with information in given dest filepath. 
+
+Technical:
+    - Downloads should occur in workers. SO application runs for sure. 
+    - Queues should be built up for managing speed and cpu usage.
+        1) download Queue
+        2) Request queue in General. This should limit all requests matching to a given download url
+        which do actually not download a vide. In general download queueu should be way shorter than request queue
+        3) convert queue, if videos have to be converted. 
+        4) file move queue. This one is maybe not neeedded. Moving is limited since
+        io :)
+    - Queues are pools of webworker. All queueu take DownloadObj as input. A Downloadobj
+    hods different strategies for the above defined steps. The Item is passed to
+    a webworker, the worker does the job with it, and the worker stores results in item.
+    - So items will be manipulated by queues. But only native property valus will be changed.
+    - An item holds an array of actions to perform. Basicallly this is some array with simple objects
+    which holds info about which strategie to take and staff.
+    - ITems only hold strategie names not strategies itself. IT CAN SImpler serialized after deserialization ..
+    if it holds json valid data.
+
+
+Investigation:
+    - maybe urlParser? 
+    - Which request lib to take for download. 
+        1) Video Url in general
+        2) Youtube video url
+        *3) what about other common videosites? Soundcloud, 
+    - ffmpeg module
+    - 

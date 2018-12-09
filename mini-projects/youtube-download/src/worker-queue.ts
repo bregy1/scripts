@@ -9,6 +9,7 @@ export class WorkerQueue {
     private _workers: Worker[] = [];
   
     public constructor(workerCount: number, private _maxSize: number = -1, run: boolean = true) {
+        console.log('creating WorkerQueue with ['+ workerCount+'] workers');
         for(let i = 0; i < workerCount; i++) {
             this._workers.push(new Worker(this._members, run));
         }
@@ -32,7 +33,7 @@ export class WorkerQueue {
                 if (error) {
                     return reject(error);
                 } 
-                // run the shits--
+                // make sure queue restarts if stopped.
                 this.resume();
                 resolve(result);
             });

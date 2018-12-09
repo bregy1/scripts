@@ -42,7 +42,7 @@ export class WorkerQueue {
 
     private _add<T>(fn: (...args: any[]) => Promise<T> | T, args: any[], onDone: (error: any, result: T) => void): void {
         if (this._maxSize > -1 && this._members.length > this._maxSize) {
-            return onDone(Worker.ERR_QUEUE_FULL, null);
+            return onDone(WorkerQueue.ERR_QUEUE_FULL, null);
         }
         let id = createId();
         this._members.push({ fn, id, args, onDone });

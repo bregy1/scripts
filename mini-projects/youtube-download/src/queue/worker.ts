@@ -8,8 +8,6 @@ export interface IMember {
 
 export class Worker {
 
-    public static ERR_QUEUE_FULL = 'ERR_QUEUE_FULL';
-
     private _isActive: boolean = false;
     private _wantBeRunning: boolean = false;
 

@@ -13,6 +13,7 @@ async function doFullQueue(inputFile: string, destFolder: string) {
     let rawInputData = await readFile(inputFile);
     let urls = new Parser().urls(rawInputData.toString());
     console.log('trying to download following urls:', urls);
+    
     // now we create items corresponding to urls for downloading items
     let items = urls.map(url => ItemFactory.getItem(url, destFolder));
 

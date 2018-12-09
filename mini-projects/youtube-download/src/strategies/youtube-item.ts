@@ -5,21 +5,36 @@ var youtubedl = require('youtube-dl');
 
 import { promisify } from 'util';
 import { createWriteStream } from 'fs';
-import { waitStreams } from './utils';
+import { waitStreams } from '../utils';
+import { Item, ISimpleJob } from './item';
+import { join } from 'path';
 
-export class Ytdl {
+export class YoutubeItem extends Item {
 
     private videoInfo: IYtdlInfo;
 
-    constructor(private rawUrl: string) {
+    constructor(private rawUrl: string, destFolder: string) {
+        super();
 
+        let jobs: ISimpleJob[] = [
+            {
+               type: 'request',
+               job: this.requestFreshInfo.bind(this),
+            },
+            {
+                type: 'download',
+                job: this.downloadVideo.bind(this),
+                args: [destFolder]
+             },
+        ];
+
+        jobs.forEach(j => this.addJob(j.type, j.job, j.args));
     }
 
     public async requestFreshInfo(): Promise<IYtdlInfo> {
         let info = await promisify(ytdl.getInfo)(this.rawUrl);
         this.videoInfo = this._buildInfo(info);
         return this.videoInfo;
-
     }
 
     public async getInfo(): Promise<IYtdlInfo> {
@@ -38,7 +53,8 @@ export class Ytdl {
         return this.rawUrl;
     }
 
-    public async downloadVideo(destFile: string): Promise<void> {
+    public async downloadVideo(destFolder: string): Promise<void> {
+        let destFile = join(destFolder, this.videoInfo.trackName);
         var video = youtubedl(this.downloadUrl);
         let destStream = createWriteStream(destFile);
         video.pipe(destStream);
@@ -74,12 +90,10 @@ export class Ytdl {
             ext: get(info, 'ext', ''),
             filesize: get(info, 'filesize', 0),
             track: get(info, 'track', ''),
-
             // this is video url
             url: get(info, 'url', '')
         }
     }
-
 }
 
 export interface IYtdlInfo {
@@ -95,10 +109,8 @@ export interface IYtdlInfo {
     filesize?: number;
     track?: string;
     trackName: string;
-
     // this is video url
     url: string;
-
 }
 
 

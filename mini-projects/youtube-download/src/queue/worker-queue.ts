@@ -1,4 +1,4 @@
-import { createId } from './utils';
+import { createId } from '../utils';
 import { IMember, Worker } from './worker';
 
 export class WorkerQueue {
@@ -29,7 +29,7 @@ export class WorkerQueue {
 
     public async run<T>(fn: (...args: any[]) => Promise<T> | T, args?: any[]): Promise<T> {
         return new Promise<T>((resolve, reject) => {
-            this._add(fn, args, (error, result) => {
+            this._add(fn, args || [], (error, result) => {
                 if (error) {
                     return reject(error);
                 } 

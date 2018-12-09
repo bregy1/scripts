@@ -1,33 +1,42 @@
-import { IItem, IJob } from './item-queue';
-import { createId } from './utils';
+import { IItem, IJob } from '../queue/item-queue';
+import { createId } from '../utils';
 import * as _ from 'lodash';
 
-export interface IJob {
-    type: string;
-    job: (args?: any[]) => Promise<void>;
-    args?: any[];
+export type JobTypes = 'download' | 'request';
+
+
+export interface IJob extends ISimpleJob {
     done: boolean;
     id: string;
     error?: any;
 }
 
-export class Item implements IItem {
+export interface ISimpleJob {
+    type: JobTypes;
+    job: (args?: any[]) => Promise<void>; 
+    args?: any[];
+}
+
+export abstract class Item implements IItem {
 
     private _jobs: IJob[] = [];
-    private _id: string;
 
-    public constructor(id?: string) {
-        this._id = id || createId();
+    public constructor() {
+        
     }
 
-    public addJob(type: string, job: (args?: any[]) => Promise<void>, args?: any[]) {
-        this._jobs.push({
+    private _buildJob(type: JobTypes, job: (args?: any[]) => Promise<void>, args?: any[]): IJob {
+        return {
             type: type,
             job: job,
             done: false,
             id: createId(),
             args: args
-        });
+        };
+    }
+
+    public addJob(type: JobTypes, job: (args?: any[]) => Promise<void>, args?: any[]): void {
+        this._jobs.push(this._buildJob(type, job, args));
     }
 
     public hasNext(): boolean {
@@ -45,4 +54,5 @@ export class Item implements IItem {
         }
         _.assign(this._jobs[index], { error: error, done: true });
     }
+
 }

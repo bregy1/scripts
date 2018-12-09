@@ -18,14 +18,13 @@ export function waitStreams(streams: Array<fse.ReadStream | fse.WriteStream>): P
     return Promise.all(streams.map(waitForStream))[0];
 }
 
-
-
-
 export function waitForStream(stream: fse.ReadStream | fse.WriteStream): Promise<void> {
     return new Promise<void>((resolve, reject) => {
         stream.on('error', err => {
             reject(err);
-            stream.close();
+            if(stream && typeof stream.close === 'function') {
+                stream.close();
+            }
         });
         stream.on('end', resolve);
         stream.on('close', resolve);

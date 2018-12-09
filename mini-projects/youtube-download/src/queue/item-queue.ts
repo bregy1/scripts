@@ -1,7 +1,8 @@
 import { WorkerQueue } from './worker-queue';
+import { JobTypes } from '../strategies/item';
 
 export interface IJob {
-    type: string;
+    type: JobTypes;
     job: (args?: any[]) => Promise<void>;
     args?: any[];
     done: boolean;
@@ -21,14 +22,14 @@ export interface IItem {
 // allows things like " always allow simple get requests but do only allow 3 downloads a time:))"
 export class ItemQueue {
 
-    private _workerPools: { [key: string]: WorkerQueue } = {};
+    private _workerPools: { [key in JobTypes]?: WorkerQueue } = {};
 
     public processItem(item: IItem): Promise<IItem> {
         // let index = this._items.push(item);
         return this._processItem(item);
     }
 
-    public register(type: string, workers: number): void {
+    public register(type: JobTypes, workers: number): void {
         if (this._workerPools[type]) {
             throw 'Queue ' + type + ' already registered';
         }
@@ -43,12 +44,13 @@ export class ItemQueue {
                 console.log('QUEUE ' + queue + ' NOT REGISTERED')
                 throw 'QUEUE ' + queue + ' NOT REGISTERED';
             }
+            let jobLabel = job.type+'_'+job.id;
             try {
-                // run actually waits for the result..
+                console.time(jobLabel)
                 await queue.run(job.job, job.args);
-                console.log('job SUCCESS:', job.type, '=>', job.id);
+                console.timeEnd(jobLabel);
             } catch (error) {
-                console.log('job ERROR:', job.type, '=>', job.id, error);
+                console.timeEnd(jobLabel);
                 job.error = error;
             }
             

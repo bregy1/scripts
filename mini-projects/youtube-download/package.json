@@ -25,6 +25,7 @@
     "@types/fs-extra": "^5.0.4",
     "@types/lodash": "^4.14.118",
     "fs-extra": "^7.0.1",
+    "js-logger": "^1.6.0",
     "lodash": "^4.17.11",
     "url": "^0.11.0",
     "youtube-dl": "^1.12.2"

@@ -1,5 +1,5 @@
 import { Ytdl, IYtdlInfo } from './youtube-download';
-import { readFile, waitAll, getFileName } from './utils';
+import { readFile, waitAll } from './utils';
 import { Parser } from './parser';
 import { join } from 'path';
 
@@ -16,9 +16,8 @@ async function doFullQueue(inputFile: string, destFolder: string) {
     // then we download all collected infos
     let downLodResults = await waitAll(infos.map(async (info, index) => {
         if(!info) return Promise.resolve('INVALID INFO>>');
-        let filename = getFileName(info);
-        console.log('fineLname:', filename);
-        return downloads[index].downloadVideo(join(destFolder, filename));
+        console.log('fineLname:', info.trackName);
+        return downloads[index].downloadVideo(join(destFolder, info.trackName));
     }));
 
     console.log("done!");

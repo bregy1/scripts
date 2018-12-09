@@ -48,13 +48,21 @@ export class Ytdl {
           console.log('Download started');
           console.log('size: ',info);
         });*/
-        
+
         return waitStreams([video, destStream])
     }
 
-    public _buildInfo(info: Object): IYtdlInfo {
+    private _getTrackName(info: Object): string {
+        let _info = info || {};   
+        return (_info['track'] || _info['title'] || _info['fulltitle']) +
+            (_info['ext'] ? '.' + info['ext'] : '') ||
+            (_info['_filename'] || 'UNKWNOWN_FILE'+Date.now()+'.'+_info['ext']);
+    }
+
+    private _buildInfo(info: Object): IYtdlInfo {
 
         return {
+            trackName: this._getTrackName(info),
             thumbnail: get(info, 'thumbnail', ''),
             description: get(info, 'description', ''),
             id: get(info, 'id', ''),
@@ -86,6 +94,7 @@ export interface IYtdlInfo {
     ext: string;
     filesize?: number;
     track?: string;
+    trackName: string;
 
     // this is video url
     url: string;

@@ -1,6 +1,6 @@
 import * as fse from 'fs-extra';
 import { promisify } from 'util';
-import { IYtdlInfo } from './youtube-download';
+
 export function readStream(file: string): fse.ReadStream {
     return fse.createReadStream(file);
 }
@@ -18,11 +18,7 @@ export function waitStreams(streams: Array<fse.ReadStream | fse.WriteStream>): P
     return Promise.all(streams.map(waitForStream))[0];
 }
 
-export function getFileName(info: IYtdlInfo): string {
-    return info._filename 
-        || ((info.fulltitle || info.title) + '.' + info.ext) 
-        || 'UNKNOWN_'+Date.now()+'.'+info.ext;
-}
+
 
 
 export function waitForStream(stream: fse.ReadStream | fse.WriteStream): Promise<void> {
@@ -62,3 +58,24 @@ export async function waitAll<T>(proms: Array<Promise<T>>): Promise<Array<T | un
     return resProm;
 
 }
+
+
+// make sure we have unique ids a 100% .....
+let ids = [];
+
+export function createId(): string {
+    let id: string;
+    do {
+        id = newId();
+    } while(ids.indexOf(id) > -1);
+
+    return id;
+}
+
+function newId(): string {
+    let now = ''+Date.now();
+    let timePart = now.substring(now.length -5)
+    return timePart + Math.random().toString(36).substring(2);
+}
+
+

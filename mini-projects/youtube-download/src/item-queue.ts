@@ -1,4 +1,4 @@
-import { Queue } from './queue';
+import { WorkerQueue } from './worker-queue';
 
 export interface IJob {
     type: string;
@@ -15,46 +15,44 @@ export interface IItem {
     done: (error: any, id: string) => void;
 }
 
-export class JobQueue {
+
+// allows processing items parallel. 
+// jobs are limited in a way where the type of the job
+// decides the queue where it is taken,
+// allows things like " always allow simple get requests but do only allow 3 downloads a time:))"
+export class ItemQueue {
 
   //  private _items: IItem[] = [];
-    private _queues: { [key: string]: Queue };
+    private _workerPools: { [key: string]: WorkerQueue };
 
     public async processItem(item: IItem): Promise<IItem> {
        // let index = this._items.push(item);
         return await this._processItem(item); 
-
     }
 
-    public registerQueue(type: string): void {
-        this._queues[type] = new Queue(3, true);
+    public registerQueue(type: string, workers: number): void {
+        if(this._workerPools[type]) {
+            throw 'Queue ' + type + ' already registered';
+        }
+        this._workerPools[type] = new WorkerQueue(workers, -1, true);
     }
 
     private async _processItem(item: IItem): Promise<IItem> {
         while(item.hasNext()) {
             let job = item.next();
-            let queue = this._queues[job.type];
+            let queue: WorkerQueue = this._workerPools[job.type];
             if(!queue) {
                 throw 'QUEUE ' + queue + ' NOT REGISTERED'; 
             } 
             try {
+                // run actually waits for the result..
                 await queue.run(job.job, job.args);
             } catch(error) {
                 job.error = error;
             }
             item.done(job.error, job.id);
         }
+        
         return item;
     }
-
-
-    // item gets added
-    // item is started immediately.
-    // It runs jobs of an item accoroding to queue.
-    // event is emitterd when item is done
-
-
-
-
-
 }

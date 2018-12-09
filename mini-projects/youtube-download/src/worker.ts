@@ -1,22 +1,19 @@
-import { createId } from './utils';
-import { Logger } from './logger';
 
-interface IMember {
+export interface IMember {
     id: string;
     fn: Function;
     args?: any[];
     onDone: Function;
 }
 
-export class Queue {
+export class Worker {
 
     public static ERR_QUEUE_FULL = 'ERR_QUEUE_FULL';
-    private _members: IMember[] = [];
 
     private _isActive: boolean = false;
     private _wantBeRunning: boolean = false;
 
-    public constructor(private _maxSize: number, run: boolean = false) {
+    public constructor(private _members: IMember[], run: boolean = false) {
         if(run) {
             this.resume();
         }
@@ -30,13 +27,6 @@ export class Queue {
         this._wantBeRunning = true;
         this._tryNext();
     }
-
-    /*public remove(id: string): void {
-        let index = this._members.findIndex(m => m.id === id);
-        if(index > -1) {
-            this._members.splice(index, 1);
-        }
-    }*/
 
     private async _next() {
 
@@ -73,29 +63,12 @@ export class Queue {
             
     }
 
-    private async _tryNext() {
+    // trying next without changing active set of queue like resume.
+    // use with caution..
+    public async _tryNext() {
         if(!this._isActive) {
             this._isActive = true;
             this._next();
         }
-    }
-
-    public async run<T>(fn: (...args: any[]) => Promise<T> | T , args?: any[]): Promise<T> {
-        return new Promise<T>((resolve, reject) => {
-            this._add(fn, args, (error, result) => {
-                if(error) {
-                    reject(error);
-                } else resolve(result);
-            });
-        });
-    }
-
-    private _add<T>(fn: (...args: any[]) => Promise<T> | T , args: any[], onDone: (error: any, result: T) => void): void {
-        if(this._maxSize > -1 && this._members.length > this._maxSize) {
-            return onDone(Queue.ERR_QUEUE_FULL, null);
-        }
-        let id = createId();
-        this._members.push({ fn, id, args, onDone });
-        this._tryNext();
     }
 }

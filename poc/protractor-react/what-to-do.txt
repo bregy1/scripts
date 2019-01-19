@@ -1,0 +1,10 @@
+
+
+    I want to get protractor to run.,
+    Steps::
+        - Instalal react, get hellow word app
+        - add button for logging a string in  a textbox,
+        - install protractor
+        - Test adding text in tezxtbox adding it to page,,
+        Check tesxt .................
+        GOO

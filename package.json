@@ -4,7 +4,9 @@
   "description": "List of small programs made usually for testing or having fun.",
   "main": "index.js",
   "dependencies": {
+    "@types/lodash": "^4.14.120",
     "@types/winston": "^2.4.4",
+    "lodash": "^4.17.11",
     "protractor": "^5.4.1",
     "q": "^1.5.1",
     "winston": "^3.1.0"

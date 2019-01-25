@@ -29,14 +29,15 @@ export class WorkerQueue {
 
     public async run<T>(fn: (...args: any[]) => Promise<T> | T, args?: any[]): Promise<T> {
         return new Promise<T>((resolve, reject) => {
-            this._add(fn, args || [], (error, result) => {
+            this._add(fn, args || [], (error, result) => {       
                 if (error) {
                     return reject(error);
                 } 
-                // make sure queue restarts if stopped.
-                this.resume();
                 resolve(result);
             });
+            
+             // make sure queue restarts if stopped after adding it...
+            this.resume();
         });
     }
 

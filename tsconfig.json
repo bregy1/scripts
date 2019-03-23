@@ -1,0 +1,25 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+      "outDir": "./dist/",
+      "sourceMap": true,
+      "declaration": false,
+      "removeComments": true,
+      "noLib": false,
+      "checkJs": true,
+      "allowJs": true,
+      "moduleResolution": "node",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "allowUnreachableCode": false,
+      "noImplicitAny": false,
+      "pretty": true,
+      "noImplicitReturns": true,
+      "noImplicitUseStrict": false,
+      "noFallthroughCasesInSwitch": true,
+      "skipLibCheck": true,
+      "target": "es5",
+      "lib": ["es2018", "dom"]
+    }
+  }
+  

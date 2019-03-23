@@ -1,5 +1,5 @@
 {
-  "name": "home-scripts",
+  "name": "up-time",
   "version": "1.0.0",
   "description": "List of small programs made usually for testing or having fun.",
   "main": "index.js",
@@ -7,6 +7,7 @@
     "@types/lodash": "^4.14.120",
     "@types/winston": "^2.4.4",
     "lodash": "^4.17.11",
+    "ping": "^0.2.2",
     "protractor": "^5.4.1",
     "q": "^1.5.1",
     "winston": "^3.1.0"
@@ -16,5 +17,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bregy1/scripts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bregy1/scripts/issues"
+  },
+  "homepage": "https://github.com/bregy1/scripts#readme"
 }

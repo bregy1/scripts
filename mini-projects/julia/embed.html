@@ -1,6 +1,6 @@
 <script type="text/javascript">
 
-    function getLangId(lang) {
+    function toLangId(lang) {
         if (!lang || typeof lang !== 'string') return 1;
         if (lang.length > 2) lang = lang.substring(0, 2);
 
@@ -24,35 +24,51 @@
         }
     }
 
-    function getAppartmentId() {
+    function currentApartmendId() {
         var url = window.location.href;
-        if (url.indexOf('apartment-efeu') > -1) {
+        if (url.indexOf('apartment-efeu') !== -1) {
             return 11;
         }
-        if (url.indexOf('apartment-eggeri') > -1) {
+        if (url.indexOf('apartment-eggeri') !== -1) {
             return 12;
         }
+        if(url.indexOf('chalet-firnrot') !== -1) {
+            return 13;
+        }
+        if(url.indexOf('kornstadel-') !== -1 && url.indexOf('-prata') !== -1 ) {
+            return 15;
+        }
 
-        console.error('APARTMENT NOT FOUND IN URL:', url);
+     throw 'APARTMENT NOT FOUND IN URL: ' + url;
     }
 
     function createJuliaLink(_userId, _langId, _appartmentId) {
         return `https://www.easy-booking.at/clientWeb001/#${_userId}/${_langId}/category/${_appartmentId}`;
     }
 
+    function injectAsIframe(targetElementId, url) {
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('width', '600px');
+        iframe.setAttribute('height', '660px');
+        iframe.setAttribute('src', url);
+
+        var target = document.getElementById(targetElementId);
+        if(!target) {
+            throw 'Target element for injecting iframe is not found.. id:' + targetElementId;
+        }
+
+        target.appendChild(iframe);
+    }
 
     function embedJulia() {
 
         var lang = window.navigator.language || window.navigator.userLanguage;
-        var langId = getLangId(lang);
+        var langId = toLangId(lang);
         var userId = '7233';
-        var langId = '2';
-        var appartmentId = getAppartmentId();
+        var appartmentId = currentApartmendId();
         var link = createJuliaLink(userId, langId, appartmentId);
 
-        var iframe = document.getElementById('brsi-embed-julia-eggeri');
-        iframe.setAttribute('src', link);
-
+        injectAsIframe('parent', link);
     }
 
     var interval = setInterval(() => {
@@ -66,5 +82,4 @@
 
 </script>
 
-<iframe width="100%" height="600px" id="brsi-embed-julia-eggeri"></iframe>
-<a id="brsi-link-efeu"><p><h4>I wanna book!</h></p></a>
+<div id="parent"></div>

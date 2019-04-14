@@ -13,7 +13,7 @@ export enum Prefix {
 type actType = keyof typeof Actions
 type preType = keyof typeof Prefix
 
-type resultsArr = {[key1 in actType]: {[key2 in preType]: preType & actType}};
+type resultsArr = {[key1 in actType]: {[key2 in preType]: string}};
 
 var A: resultsArr; 
 
@@ -41,7 +41,7 @@ const mixFunc = (a: actType, b: preType) => {
     const aKeys = Object.keys(a) as actType[]
     const bKeys = Object.keys(b) as preType[]
 
-    const results: = []
+    const results = []
     aKeys.forEach(ak => {
         bKeys.forEach(bk => {
             const c = ak + bk as typeof ak & typeof bk

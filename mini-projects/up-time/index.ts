@@ -29,7 +29,6 @@ const appendToFile = async (file: string, data: string) => {
 }
 
 const isAlive = (adress: string): Promise<boolean> => {
-    console.log('ping =>', adress)
     const config = {
         // timeout: 10,
         // extra: ["-i 2"],

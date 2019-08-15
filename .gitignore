@@ -4,3 +4,5 @@ node_modules/**
 *.min.html
 *.min.js
 *.min.css
+.DS_STORE
+.DS_Store

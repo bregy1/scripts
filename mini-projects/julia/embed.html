@@ -23,8 +23,9 @@
                 return 1;
         }
     }
-
-    function currentApartmendId() {
+    
+    function currentApartmendId(mappings) {
+         
         var url = window.location.href;
         if (url.indexOf('apartment-efeu') !== -1) {
             return 11;
@@ -37,6 +38,21 @@
         }
         if(url.indexOf('kornstadel-') !== -1 && url.indexOf('-prata') !== -1 ) {
             return 15;
+        }
+        if(url.indexOf('sandpiper-ein-nest-fuer-2') !== -1) {
+            return 19;
+        }
+        if(url.indexOf('sandpiper-ein-nest-fuer-4') !== -1) {
+            return 18;
+        }
+        if(url.indexOf('das-versteck') !== -1) {
+            return 14;
+        }
+        if(url.indexOf('chalet-schinkenheim') !== -1) {
+            return 17;
+        }
+        if(url.indexOf('maisonette-gentiana') !== -1) {
+            return 16;
         }
 
      throw 'APARTMENT NOT FOUND IN URL: ' + url;
@@ -62,13 +78,14 @@
 
     function embedJulia() {
 
+        
         var lang = window.navigator.language || window.navigator.userLanguage;
         var langId = toLangId(lang);
         var userId = '7233';
         var appartmentId = currentApartmendId();
         var link = createJuliaLink(userId, langId, appartmentId);
 
-        injectAsIframe('parent', link);
+        injectAsIframe('mask-parent', link);
     }
 
     var interval = setInterval(() => {
@@ -76,10 +93,10 @@
             embedJulia();
             clearInterval(interval);
         } catch (err) {
-            console.error(err);
+            console.error('Error embedding Julia:',  err);
         }
     }, 300);
 
 </script>
 
-<div id="parent"></div>
+<div id="mask-parent"></div>

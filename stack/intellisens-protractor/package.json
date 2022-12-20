@@ -11,8 +11,8 @@
   "devDependencies": {
     "@types/node": "^8.0.47",
     "astrolabe": "0.3.6",
-    "exceljs": "^0.2.3",
-    "jasmine-allure-reporter": "^0.2.3",
+    "exceljs": "^4.3.0",
+    "jasmine-allure-reporter": "^1.0.2",
     "jasmine-reporters": "2.0.0",
     "protractor": "~7.0.0",
     "selenium-webdriver": "^2.47.1",

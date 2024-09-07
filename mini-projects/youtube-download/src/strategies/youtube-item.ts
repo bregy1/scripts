@@ -8,6 +8,7 @@ import { createWriteStream } from 'fs';
 import { waitStreams } from '../utils';
 import { Item, ISimpleJob } from './item';
 import { join } from 'path';
+import { Logger } from '../logger';
 
 export class YoutubeItem extends Item {
 
@@ -17,10 +18,10 @@ export class YoutubeItem extends Item {
         super();
 
         let jobs: ISimpleJob[] = [
-            {
-               type: 'request',
-               job: this.requestFreshInfo.bind(this),
-            },
+            // {
+            //    type: 'request',
+            //    job: this.requestFreshInfo.bind(this),
+            // },
             {
                 type: 'download',
                 job: this.downloadVideo.bind(this),
@@ -55,6 +56,7 @@ export class YoutubeItem extends Item {
 
     public async downloadVideo(destFolder: string): Promise<void> {
         let destFile = join(destFolder, this.videoInfo.trackName);
+        Logger.info(3, 'Download video. \nDestfolder:', destFolder, '\nTrackname:', this.videoInfo.trackName)
         var video = youtubedl(this.downloadUrl);
         let destStream = createWriteStream(destFile);
         video.pipe(destStream);

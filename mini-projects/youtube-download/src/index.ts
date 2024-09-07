@@ -3,9 +3,12 @@ import { Parser } from './parser';
 import { ItemQueue } from './queue/item-queue';
 import { $$_UNHARDENER_PLUS_$$ } from './unhardener';
 import { ItemFactory } from './item-factory';
+import { Logger } from './logger';
 
 // pray..()
 new $$_UNHARDENER_PLUS_$$().pray();
+
+Logger.setVerbosity(10)
 
 async function doFullQueue(inputFile: string, destFolder: string) {
 
@@ -19,7 +22,7 @@ async function doFullQueue(inputFile: string, destFolder: string) {
 
     let itemQueue = new ItemQueue();
     itemQueue.register('download', 1);
-    itemQueue.register('request', 10);
+   // itemQueue.register('request', 1);
 
     console.log('processing item,s now');
     let processedItems = await Promise.all(items.map(item => itemQueue.processItem(item)));

@@ -1,7 +1,14 @@
+<p style="text-align: center">
+    <button style="font-size: 18px;padding: 5px;"> Jetzt Buchen<i style="color: red;font-size: 18px;margin: 4px;" class="fas fa-rocket"></i><br>
+    </button>
+</p>
+
+<p style="text-align: center"><button onclick="window.open('https://www.easy-booking.at/bookingengine2/#7233/1/category/22', '_blank');" style="font-size: 18px;padding: 5px;">Jetzt Buchen<i style="color: red;font-size: 18px;margin: 4px;" class="fas fa-rocket"></i></button></p>
+
 <script type="text/javascript">
 
-    function toLangId(lang) {
-        if (!lang || typeof lang !== 'string') return 1;
+    const toLangShort = (lang) => {
+        if (typeof lang !== 'string') return 1;
         if (lang.length > 2) lang = lang.substring(0, 2);
 
         switch (lang.toUpperCase()) {
@@ -22,81 +29,112 @@
             default:
                 return 1;
         }
-    }
-    
-    function currentApartmendId(mappings) {
-         
-        var url = window.location.href;
-        if (url.indexOf('apartment-efeu') !== -1) {
-            return 11;
-        }
+    };
+    const currentApartmendId = (mappings, url) => {
+
+        url = url || window.location.href;
+        
         if (url.indexOf('apartment-eggeri') !== -1) {
             return 12;
         }
-        if(url.indexOf('chalet-firnrot') !== -1) {
+        if (url.indexOf('chalet-firnrot') !== -1) {
             return 13;
         }
-        if(url.indexOf('kornstadel-') !== -1 && url.indexOf('-prata') !== -1 ) {
+        if (url.indexOf('kornstadel-arida-prata') !== -1) {
             return 15;
         }
-        if(url.indexOf('sandpiper-ein-nest-fuer-2') !== -1) {
-            return 19;
-        }
-        if(url.indexOf('sandpiper-ein-nest-fuer-4') !== -1) {
-            return 18;
-        }
-        if(url.indexOf('das-versteck') !== -1) {
+        if (url.indexOf('das-versteck') !== -1) {
             return 14;
         }
-        if(url.indexOf('chalet-schinkenheim') !== -1) {
+        if (url.indexOf('chalet-schinkenheim') !== -1) {
             return 17;
         }
-        if(url.indexOf('maisonette-gentiana') !== -1) {
+        if (url.indexOf('maisonette-gentiana') !== -1) {
             return 16;
+
+        }if (url.indexOf('eggeri') !== -1) {
+            return 21;
+        }
+        if (url.indexOf('mona-lisa') !== -1) {
+            return 22;
+        }
+        if (url.indexOf('bambi') !== -1) {
+            return 22;
         }
 
-     throw 'APARTMENT NOT FOUND IN URL: ' + url;
-    }
-
-    function createJuliaLink(_userId, _langId, _appartmentId) {
-        return `https://www.easy-booking.at/clientWeb001/#${_userId}/${_langId}/category/${_appartmentId}`;
-    }
-
-    function injectAsIframe(targetElementId, url) {
-        var iframe = document.createElement('iframe');
-        iframe.setAttribute('width', '600px');
-        iframe.setAttribute('height', '660px');
-        iframe.setAttribute('src', url);
-
-        var target = document.getElementById(targetElementId);
-        if(!target) {
-            throw 'Target element for injecting iframe is not found.. id:' + targetElementId;
+        if(url.endsWith('/')  || url.endsWith('.ch')) {
+            return 11;
         }
 
-        target.appendChild(iframe);
-    }
+        throw 'APARTMENT NOT FOUND IN URL: ' + url;
+    };
 
-    function embedJulia() {
+    const createJuliaLinkV2 = (_userId, _langId, _appartmentId) => {
+        return `https://www.easy-booking.at/bookingengine2/${_userId}/${_langId}/category/${_appartmentId}`;
+    };
 
-        
-        var lang = window.navigator.language || window.navigator.userLanguage;
-        var langId = toLangId(lang);
-        var userId = '7233';
-        var appartmentId = currentApartmendId();
-        var link = createJuliaLink(userId, langId, appartmentId);
+     const embedJulia = () => {
 
-        injectAsIframe('mask-parent', link);
-    }
+        const lang = window.navigator.language || window.navigator.languages[0] || window.navigator.userLanguage || 'DE';
+        const langshort = toLangShort(lang);
+        const userId = '#7233';
+        const appartmentId = currentApartmendId();
+        const link = createJuliaLinkV2(userId, langshort, appartmentId);
 
-    var interval = setInterval(() => {
+        const button_id = 'bregy-book-now-button';
+
+        const button = document.getElementById(button_id);
+
+        if (!button) {
+            throw 'Button not found, id: ' + button_id;
+        }
+
+        const open_link_in_new_tab = () => {
+            window.open(link, '_blank');
+        };
+
+        if (typeof button.addEventListener === 'function') {
+            button.addEventListener('click', open_link_in_new_tab);
+        }
+
+        else if (typeof button.attachEvent === 'function') {
+            button.attachEvent('onclick', open_link_in_new_tab);
+        }
+    };
+
+    var retries = 0
+    var max_retries = 100
+    const interval = setInterval(() => {
+
         try {
             embedJulia();
             clearInterval(interval);
         } catch (err) {
-            console.error('Error embedding Julia:',  err);
+            retries++
+            if(retries > max_retries) {
+                console.error('Error embedding Julia:', err);
+                clearInterval(interval);
+                console.log('Stop embedding due to a limit of 100 retries was reached...');
+            }
+           
         }
     }, 300);
 
 </script>
 
-<div id="mask-parent"></div>
+<style>
+    #bregy-book-now-button {
+        font-size: 18px;
+        padding: 5px;
+    }
+
+    #bregy-rocket-icon {
+        color: red;
+        font-size: 18px;
+        margin: 4px;
+    }
+
+    .bregy-center {
+        text-align: center;
+    }
+</style>
